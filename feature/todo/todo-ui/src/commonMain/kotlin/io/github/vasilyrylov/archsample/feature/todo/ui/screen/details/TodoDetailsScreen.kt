@@ -3,10 +3,6 @@ package io.github.vasilyrylov.archsample.feature.todo.ui.screen.details
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
+import io.github.vasilyrylov.archsample.common.ui.icons.ArrowBack
+import io.github.vasilyrylov.archsample.common.ui.icons.Delete
+import io.github.vasilyrylov.archsample.common.ui.icons.Edit
+import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.details.model.TodoDetailsScreenDialog
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.details.model.TodoDetailsViewState
 import io.github.vasilyrylov.archsample.feature.todo.ui.element.dialog.EditTodoItemDialog
@@ -42,15 +42,15 @@ fun TodoDetailsScreen(
             TopAppBar(title = { Text(text = stringResource(Res.string.todo)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.back))
+                        Icon(imageVector = Icons.ArrowBack, contentDescription = stringResource(Res.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = onEditClick) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = stringResource(Res.string.edit))
+                        Icon(imageVector = Icons.Edit, contentDescription = stringResource(Res.string.edit))
                     }
                     IconButton(onClick = onDeleteClick) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = stringResource(Res.string.delete))
+                        Icon(imageVector = Icons.Delete, contentDescription = stringResource(Res.string.delete))
                     }
                 }
             )

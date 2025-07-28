@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -22,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItemId
+import io.github.vasilyrylov.archsample.common.ui.icons.Add
+import io.github.vasilyrylov.archsample.common.ui.icons.Icons
+import io.github.vasilyrylov.archsample.common.ui.icons.Logout
 import io.github.vasilyrylov.archsample.feature.todo.ui.element.dialog.EditTodoItemDialog
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListViewState
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListScreenDialog
@@ -50,7 +50,7 @@ fun TodoListScreen(
                 },
                 actions = {
                     IconButton(onClick = onLogoutClick) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.Logout, contentDescription = stringResource(Res.string.logout))
+                        Icon(imageVector = Icons.Logout, contentDescription = stringResource(Res.string.logout))
                     }
                 }
             )
@@ -59,7 +59,7 @@ fun TodoListScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = onAddClick) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(Res.string.add))
+                    Icon(imageVector = Icons.Add, contentDescription = stringResource(Res.string.add))
                     Spacer(modifier = Modifier.width(width = 8.dp))
                     Text(text = stringResource(Res.string.add))
                 }
