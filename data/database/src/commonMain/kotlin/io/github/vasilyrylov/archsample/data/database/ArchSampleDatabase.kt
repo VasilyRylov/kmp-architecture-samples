@@ -23,6 +23,7 @@ abstract class ArchSampleDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
 }
 
+@Suppress("KotlinNoActualForExpect")
 expect object ArchSampleDatabaseConstructor : RoomDatabaseConstructor<ArchSampleDatabase> {
     override fun initialize(): ArchSampleDatabase
 }
