@@ -1,12 +1,13 @@
 import dev.iurysouza.modulegraph.Orientation
 
 plugins {
-    alias(libs.plugins.multiplatform).apply(false)
-    alias(libs.plugins.compose.compiler).apply(false)
-    alias(libs.plugins.compose).apply(false)
-    alias(libs.plugins.android.application).apply(false)
-    alias(libs.plugins.android.library).apply(false)
-    alias(libs.plugins.kotlinx.serialization).apply(false)
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidMultiplatformLibrary) apply false
+    alias(libs.plugins.composeMultiplatform) apply false
+    alias(libs.plugins.composeCompiler) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlinJvm) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.room).apply(false)
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.modulegraph).apply(true)

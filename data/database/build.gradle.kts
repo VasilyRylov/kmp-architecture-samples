@@ -1,13 +1,28 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.ksp)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        namespace = "io.github.vasilyrylov.archsample.data.database"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+    }
 
     jvm()
 
@@ -26,18 +41,6 @@ kotlin {
     compilerOptions {
         // Common compiler options applied to all Kotlin source sets
         freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
-}
-
-android {
-    namespace = "io.github.vasilyrylov.archsample.data.database"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

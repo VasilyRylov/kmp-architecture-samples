@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.ksp)
 }
 
