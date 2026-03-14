@@ -86,8 +86,15 @@ kotlin {
         implementation(libs.compose.ui)
         implementation(libs.compose.components.resources)
         implementation(libs.compose.uiToolingPreview)
+
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
+
+        implementation(libs.kotlin.inject.runtime)
+
+        implementation(projects.common.commonUi)
+        implementation(projects.common.commonData)
+        implementation(projects.feature.root.rootComponent)
 
         implementation(libs.kotlinx.datetime)
 

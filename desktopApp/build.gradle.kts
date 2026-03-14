@@ -9,7 +9,9 @@ plugins {
 kotlin {
     dependencies {
         implementation(projects.shared)
+        implementation(projects.feature.root.rootComponent)
 
+        implementation(libs.decompose)
         implementation(compose.desktop.currentOs)
         implementation(libs.kotlinx.coroutines.swing)
     }
