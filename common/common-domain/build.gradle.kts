@@ -6,8 +6,6 @@ plugins {
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -16,10 +14,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             api(libs.uuid)
-        }
-
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
     }
 }

@@ -6,8 +6,6 @@ plugins {
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -22,9 +20,6 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.kotlin.inject.runtime)
-        }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
         }
     }
 }

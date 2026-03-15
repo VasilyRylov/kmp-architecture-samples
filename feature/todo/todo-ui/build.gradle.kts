@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.kotlinSerialization)
@@ -7,9 +8,13 @@ plugins {
 
 kotlin {
 
-    jvm()
+    androidLibrary {
+        namespace = "io.github.vasilyrylov.archsample.feature.todo.ui"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
 
-    iosX64()
+    jvm()
     iosArm64()
     iosSimulatorArm64()
 
@@ -26,9 +31,6 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.kotlin.inject.runtime)
             implementation(libs.kotlinx.serialization.json)
-        }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
         }
     }
 }

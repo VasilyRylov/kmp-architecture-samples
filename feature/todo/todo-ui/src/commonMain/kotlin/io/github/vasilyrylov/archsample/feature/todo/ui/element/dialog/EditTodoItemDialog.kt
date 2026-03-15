@@ -12,10 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.cancel
-import io.github.vasilyrylov.archsample.resources.save
-import io.github.vasilyrylov.archsample.resources.todo
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.cancel
+import io.github.vasilyrylov.archsample.common.ui.resources.save
+import io.github.vasilyrylov.archsample.common.ui.resources.todo
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

@@ -5,8 +5,6 @@ plugins {
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -18,10 +16,6 @@ kotlin {
             api(projects.data.preferences)
             api(projects.data.database)
             api(libs.uuid)
-        }
-
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
     }
 }

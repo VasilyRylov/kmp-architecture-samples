@@ -9,9 +9,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.common.ui.icons.Person_filled
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.input_name
-import io.github.vasilyrylov.archsample.resources.name
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.input_name
+import io.github.vasilyrylov.archsample.common.ui.resources.name
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

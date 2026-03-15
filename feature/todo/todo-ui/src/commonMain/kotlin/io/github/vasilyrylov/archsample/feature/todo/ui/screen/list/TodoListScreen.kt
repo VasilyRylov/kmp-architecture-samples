@@ -25,10 +25,10 @@ import io.github.vasilyrylov.archsample.common.ui.icons.Logout
 import io.github.vasilyrylov.archsample.feature.todo.ui.element.dialog.EditTodoItemDialog
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListViewState
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListScreenDialog
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.add
-import io.github.vasilyrylov.archsample.resources.logout
-import io.github.vasilyrylov.archsample.resources.todo_list
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.add
+import io.github.vasilyrylov.archsample.common.ui.resources.logout
+import io.github.vasilyrylov.archsample.common.ui.resources.todo_list
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

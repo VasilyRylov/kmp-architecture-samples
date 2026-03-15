@@ -18,11 +18,11 @@ import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.RegistrationScreenContent
 import io.github.vasilyrylov.archsample.feature.auth.ui.data.RegistrationViewState
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.dialog.ConfirmDialog
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.confirm_registration_dialog_description
-import io.github.vasilyrylov.archsample.resources.confirm_registration_dialog_title
-import io.github.vasilyrylov.archsample.resources.input_password
-import io.github.vasilyrylov.archsample.resources.registration
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration_dialog_description
+import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration_dialog_title
+import io.github.vasilyrylov.archsample.common.ui.resources.input_password
+import io.github.vasilyrylov.archsample.common.ui.resources.registration
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
@@ -13,9 +11,6 @@ kotlin {
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
-        }
         androidResources {
             enable = true
         }
@@ -25,8 +20,6 @@ kotlin {
     }
 
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -39,9 +32,6 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
 
         }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
-        }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.compose.uiTooling)
@@ -51,7 +41,7 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "io.github.vasilyrylov.archsample.resources"
+    packageOfResClass = "io.github.vasilyrylov.archsample.common.ui.resources"
     generateResClass = always
 }
 

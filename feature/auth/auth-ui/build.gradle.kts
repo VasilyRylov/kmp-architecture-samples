@@ -2,12 +2,17 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.androidMultiplatformLibrary)
 }
 
 kotlin {
-    jvm()
+    androidLibrary {
+        namespace = "io.github.vasilyrylov.archsample.feature.auth.ui"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
 
-    iosX64()
+    jvm()
     iosArm64()
     iosSimulatorArm64()
 
@@ -21,9 +26,6 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.kotlin.inject.runtime)
             implementation(libs.compose.uiToolingPreview)
-        }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
         }
     }
 }
