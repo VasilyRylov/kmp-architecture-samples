@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItemId
@@ -53,3 +54,25 @@ fun TodoItemContent(
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun TodoListScreenContentPreview() {
+    TodoListScreenContent(todoItemsPreviewData, {}, {})
+}
+
+
+private val todoItemsPreviewData = listOf(
+    TodoItem(
+        text = "One",
+        completed = false
+    ),
+    TodoItem(
+        text = "Two",
+        completed = false
+    ),
+    TodoItem(
+        text = "Three",
+        completed = true
+    ),
+)

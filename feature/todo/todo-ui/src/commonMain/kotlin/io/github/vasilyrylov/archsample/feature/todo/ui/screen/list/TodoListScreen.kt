@@ -16,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItemId
@@ -84,4 +85,20 @@ fun TodoListScreen(
             onCancelClick = onCancelAddClick
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TodoListScreenPreview() {
+    TodoListScreen(
+        viewState = TodoListViewState(
+            listOf()
+        ),
+        onAddClick = {},
+        onCompletedChange = {},
+        onTodoClick = {},
+        onConfirmAddClick = {},
+        onCancelAddClick = {},
+        onLogoutClick = {},
+    )
 }

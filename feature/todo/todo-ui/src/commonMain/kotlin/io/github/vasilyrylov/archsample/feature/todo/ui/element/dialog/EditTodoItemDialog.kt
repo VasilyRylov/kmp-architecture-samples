@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.ui.resources.Res
 import io.github.vasilyrylov.archsample.common.ui.resources.cancel
@@ -48,3 +49,10 @@ fun EditTodoItemDialog(
         },
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun AddTodoDialogPreview() {
+    EditTodoItemDialog(TodoItem("test", false), {}, {})
+}
+

@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import io.github.vasilyrylov.archsample.common.ui.icons.ArrowBack
 import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.RegistrationScreenContent
@@ -36,7 +37,8 @@ fun RegistrationScreen(
     confirmRegistrationData: () -> Unit
 ) {
     Scaffold(topBar = {
-        TopAppBar(title = { Text(text = stringResource(Res.string.registration)) },
+        TopAppBar(
+            title = { Text(text = stringResource(Res.string.registration)) },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
                     Icon(imageVector = Icons.ArrowBack, contentDescription = stringResource(Res.string.input_password))
@@ -50,7 +52,8 @@ fun RegistrationScreen(
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues)
         ) {
-            RegistrationScreenContent(data = viewState,
+            RegistrationScreenContent(
+                data = viewState,
                 onNameChange = { name ->
                     handleChangeRegistrationData(name, viewState.password, viewState.repeatedPassword)
                 },
@@ -70,5 +73,26 @@ fun RegistrationScreen(
                 onCancelClick = { declineRegistrationData() },
             )
         }
+    }
+}
+
+
+@Preview
+@Composable
+private fun RegistrationScreenPreview() {
+
+    RegistrationScreen(
+        viewState = RegistrationViewState(
+            name = "",
+            password = "",
+            repeatedPassword = "",
+            errorMessage = null,
+            isRegistrationInProgress = false,
+            isConfirmationRequested = false,
+        ),
+        onBackClick = { },
+        handleChangeRegistrationData = { _, _, _ -> },
+        startRegistration = { },
+        declineRegistrationData = { }) {
     }
 }

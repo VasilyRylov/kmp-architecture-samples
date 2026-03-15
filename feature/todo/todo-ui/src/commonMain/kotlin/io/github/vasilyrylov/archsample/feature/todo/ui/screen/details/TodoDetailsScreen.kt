@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.ui.icons.ArrowBack
@@ -39,7 +40,8 @@ fun TodoDetailsScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = stringResource(Res.string.todo)) },
+            TopAppBar(
+                title = { Text(text = stringResource(Res.string.todo)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(imageVector = Icons.ArrowBack, contentDescription = stringResource(Res.string.back))
@@ -76,4 +78,16 @@ fun TodoDetailsScreen(
             onCancelClick = onCancelEdit,
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TodoDetailsScreenPreview() {
+    TodoDetailsScreen(
+        TodoDetailsViewState(
+            item = TodoItem(
+                text = "One",
+                completed = false
+            )
+        ), {}, {}, {}, {}, {})
 }
