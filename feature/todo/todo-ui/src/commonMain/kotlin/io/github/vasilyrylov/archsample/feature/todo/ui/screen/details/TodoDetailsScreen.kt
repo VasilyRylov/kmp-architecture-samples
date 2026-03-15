@@ -14,18 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
-import io.github.vasilyrylov.archsample.common.ui.icons.ArrowBack
-import io.github.vasilyrylov.archsample.common.ui.icons.Delete
-import io.github.vasilyrylov.archsample.common.ui.icons.Edit
-import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.details.model.TodoDetailsScreenDialog
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.details.model.TodoDetailsViewState
 import io.github.vasilyrylov.archsample.feature.todo.ui.element.dialog.EditTodoItemDialog
 import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.arrow_back_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.back
 import io.github.vasilyrylov.archsample.common.ui.resources.delete
+import io.github.vasilyrylov.archsample.common.ui.resources.delete_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.edit
+import io.github.vasilyrylov.archsample.common.ui.resources.edit_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.todo
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,15 +44,15 @@ fun TodoDetailsScreen(
                 title = { Text(text = stringResource(Res.string.todo)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.ArrowBack, contentDescription = stringResource(Res.string.back))
+                        Icon(painter = painterResource(Res.drawable.arrow_back_24px), contentDescription = stringResource(Res.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = onEditClick) {
-                        Icon(imageVector = Icons.Edit, contentDescription = stringResource(Res.string.edit))
+                        Icon(painter = painterResource(Res.drawable.edit_24px), contentDescription = stringResource(Res.string.edit))
                     }
                     IconButton(onClick = onDeleteClick) {
-                        Icon(imageVector = Icons.Delete, contentDescription = stringResource(Res.string.delete))
+                        Icon(painter = painterResource(Res.drawable.delete_24px), contentDescription = stringResource(Res.string.delete))
                     }
                 }
             )

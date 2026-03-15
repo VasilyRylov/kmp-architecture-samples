@@ -14,16 +14,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.vasilyrylov.archsample.common.ui.icons.ArrowBack
-import io.github.vasilyrylov.archsample.common.ui.icons.Icons
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.RegistrationScreenContent
 import io.github.vasilyrylov.archsample.feature.auth.ui.data.RegistrationViewState
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.dialog.ConfirmDialog
 import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.arrow_back_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration_dialog_description
 import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration_dialog_title
 import io.github.vasilyrylov.archsample.common.ui.resources.input_password
 import io.github.vasilyrylov.archsample.common.ui.resources.registration
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +41,7 @@ fun RegistrationScreen(
             title = { Text(text = stringResource(Res.string.registration)) },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(imageVector = Icons.ArrowBack, contentDescription = stringResource(Res.string.input_password))
+                    Icon(painter = painterResource(Res.drawable.arrow_back_24px), contentDescription = stringResource(Res.string.input_password))
                 }
             }
         )
