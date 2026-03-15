@@ -42,42 +42,14 @@ kotlin {
 
     jvm()
 
-//    sourceSets {
-//        commonMain.dependencies {
-//            implementation(projects.feature.root.rootComponent)
-//            implementation(projects.common.commonUi)
-//            implementation(projects.common.commonData)
-//
-//            implementation(libs.compose.runtime)
-//
-//            implementation(libs.decompose)
-//            implementation(libs.decompose.compose)
-//            implementation(libs.kotlin.inject.runtime)
-//        }
-//
-//        commonTest.dependencies {
-//            implementation(kotlin("test"))
-//            @OptIn(ExperimentalComposeLibrary::class)
-//            implementation(libs.compose.uiTest)
-//            implementation(libs.kotlinx.coroutines.test)
-//        }
-//
-//        androidMain.dependencies {
-//            implementation(libs.androidx.activityCompose)
-//            implementation(libs.kotlinx.coroutines.android)
-//        }
-//
-//        jvmMain.dependencies {
-//            implementation(libs.compose.desktop.currentOs)
-//            implementation(libs.kotlinx.coroutines.swing)
-//        }
-//
-//        iosMain.dependencies {
-//            api(projects.feature.root.rootComponent)
-//            api(libs.decompose)
-//            api(libs.essenty.lifecycle)
-//        }
-//    }
+    sourceSets {
+        iosMain.dependencies {
+            api(projects.feature.root.rootComponent)
+            api(libs.decompose)
+            api(libs.essenty.lifecycle)
+        }
+    }
+
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     dependencies {
         implementation(libs.compose.runtime)
