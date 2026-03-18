@@ -11,11 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.cancel
-import io.github.vasilyrylov.archsample.resources.save
-import io.github.vasilyrylov.archsample.resources.todo
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.cancel
+import io.github.vasilyrylov.archsample.common.ui.resources.save
+import io.github.vasilyrylov.archsample.common.ui.resources.todo
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -48,3 +50,15 @@ fun EditTodoItemDialog(
         },
     )
 }
+
+@Preview
+@Composable
+private fun AddTodoDialogPreview() {
+    AppTheme {
+        EditTodoItemDialog(
+            todoItem = TodoItem("test", false),
+            onCancelClick = {},
+            onConfirmClick = {})
+    }
+}
+

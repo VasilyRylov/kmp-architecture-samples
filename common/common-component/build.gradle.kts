@@ -1,11 +1,9 @@
 plugins {
-    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlinMultiplatform)
 }
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -14,8 +12,6 @@ kotlin {
             implementation(projects.common.commonUi)
 
             implementation(libs.decompose)
-        }
-        commonTest.dependencies {
         }
     }
 }

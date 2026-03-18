@@ -1,12 +1,10 @@
 plugins {
-    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.ksp)
 }
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -18,10 +16,6 @@ kotlin {
             api(projects.data.preferences)
             api(projects.data.database)
             api(libs.uuid)
-        }
-
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
     }
 }

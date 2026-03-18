@@ -30,6 +30,12 @@
 }%%
 
 graph TB
+  subgraph :app
+    :app:androidApp["androidApp"]
+    :app:iosApp["iosApp"]
+    :app:desktopApp["desktopApp"]
+    :app:shared["shared"]
+  end
   subgraph :common
     :common:common-component["common-component"]
     :common:common-domain["common-domain"]
@@ -48,8 +54,8 @@ graph TB
   end
   subgraph :feature:root
     :feature:root:root-domain["root-domain"]
-    :feature:root:root-ui["root-ui"]
     :feature:root:root-component["root-component"]
+    :feature:root:root-ui["root-ui"]
   end
   subgraph :feature:todo
     :feature:todo:todo-component["todo-component"]
@@ -69,16 +75,11 @@ graph TB
   :feature:root:root-domain --> :common:common-domain
   :feature:root:root-domain --> :feature:auth:auth-domain
   :feature:root:root-domain --> :feature:todo:todo-domain
-  :common:common-component --> :common:common-ui
-  :feature:todo:todo-ui --> :common:common-ui
-  :feature:todo:todo-ui --> :common:common-domain
-  :feature:todo:todo-ui --> :feature:todo:todo-domain
-  :feature:root:root-ui --> :common:common-ui
-  :feature:root:root-ui --> :feature:root:root-domain
-  :data:preferences --> :common:common-domain
-  :composeApp --> :feature:root:root-component
-  :composeApp --> :common:common-ui
-  :composeApp --> :common:common-data
+  :app:desktopApp --> :app:shared
+  :app:desktopApp --> :feature:root:root-component
+  :app:shared --> :common:common-ui
+  :app:shared --> :common:common-data
+  :app:shared --> :feature:root:root-component
   :feature:auth:auth-component --> :feature:auth:auth-ui
   :feature:auth:auth-component --> :feature:auth:auth-domain
   :feature:auth:auth-component --> :feature:auth:auth-data
@@ -92,6 +93,10 @@ graph TB
   :common:common-data --> :data:preferences
   :common:common-data --> :data:database
   :common:common-data --> :common:common-domain
+  :app:androidApp --> :app:shared
+  :app:androidApp --> :feature:root:root-component
+  :app:iosApp --> :app:shared
+  :app:iosApp --> :feature:root:root-component
   :feature:todo:todo-data --> :feature:todo:todo-domain
   :feature:todo:todo-data --> :common:common-domain
   :feature:todo:todo-data --> :common:common-data
@@ -107,8 +112,14 @@ graph TB
   :feature:root:root-component --> :common:common-ui
   :feature:root:root-component --> :common:common-data
   :feature:auth:auth-domain --> :common:common-domain
+  :common:common-component --> :common:common-ui
+  :feature:todo:todo-ui --> :common:common-ui
+  :feature:todo:todo-ui --> :common:common-domain
+  :feature:todo:todo-ui --> :feature:todo:todo-domain
+  :feature:root:root-ui --> :common:common-ui
+  :feature:root:root-ui --> :feature:root:root-domain
+  :data:preferences --> :common:common-domain
 ```
-
 ### Variants and ready status
 
 | Sample                                                                                                        | Description                                                                  | Ready status     |
@@ -162,14 +173,11 @@ To run the application on android device/emulator:
 
 #### Desktop
 
-Run the desktop application: `./gradlew :composeApp:run`
+Run the desktop application: `./gradlew :app:desktopApp:run`
 
 #### iOS
 
 To run the application on iPhone device/simulator:
 
-- Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
-- Or
-  use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-  for Android Studio
-  Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
+- Open `app/iosApp/iosApp.xcproject` in Xcode and run standard configuration
+- Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio

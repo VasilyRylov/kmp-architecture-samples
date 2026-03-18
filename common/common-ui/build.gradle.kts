@@ -1,51 +1,50 @@
 plugins {
-    alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidMultiplatformLibrary)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeMultiplatform)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        namespace = "io.github.vasilyrylov.archsample.common.ui"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+    }
 
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
-        }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
+
         }
         androidMain.dependencies {
-            implementation(libs.androidx.activityCompose)
-            implementation(compose.preview)
-            implementation(compose.uiTooling)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.compose.uiTooling)
         }
     }
 }
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "io.github.vasilyrylov.archsample.resources"
+    packageOfResClass = "io.github.vasilyrylov.archsample.common.ui.resources"
     generateResClass = always
 }
 
-android {
-    namespace = "io.github.vasilyrylov.archsample.common.ui"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
+dependencies {
+    androidRuntimeClasspath(libs.compose.uiTooling)
 }

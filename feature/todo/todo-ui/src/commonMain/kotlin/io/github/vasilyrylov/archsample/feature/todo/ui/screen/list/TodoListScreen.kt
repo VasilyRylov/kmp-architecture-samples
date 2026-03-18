@@ -16,19 +16,21 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItem
 import io.github.vasilyrylov.archsample.common.domain.model.TodoItemId
-import io.github.vasilyrylov.archsample.common.ui.icons.Add
-import io.github.vasilyrylov.archsample.common.ui.icons.Icons
-import io.github.vasilyrylov.archsample.common.ui.icons.Logout
 import io.github.vasilyrylov.archsample.feature.todo.ui.element.dialog.EditTodoItemDialog
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListViewState
 import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoListScreenDialog
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.add
-import io.github.vasilyrylov.archsample.resources.logout
-import io.github.vasilyrylov.archsample.resources.todo_list
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.add
+import io.github.vasilyrylov.archsample.common.ui.resources.add_24px
+import io.github.vasilyrylov.archsample.common.ui.resources.logout
+import io.github.vasilyrylov.archsample.common.ui.resources.logout_24px
+import io.github.vasilyrylov.archsample.common.ui.resources.todo_list
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +52,7 @@ fun TodoListScreen(
                 },
                 actions = {
                     IconButton(onClick = onLogoutClick) {
-                        Icon(imageVector = Icons.Logout, contentDescription = stringResource(Res.string.logout))
+                        Icon(painter = painterResource(Res.drawable.logout_24px), contentDescription = stringResource(Res.string.logout))
                     }
                 }
             )
@@ -59,7 +61,7 @@ fun TodoListScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = onAddClick) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Add, contentDescription = stringResource(Res.string.add))
+                    Icon(painter = painterResource(Res.drawable.add_24px), contentDescription = stringResource(Res.string.add))
                     Spacer(modifier = Modifier.width(width = 8.dp))
                     Text(text = stringResource(Res.string.add))
                 }
@@ -82,6 +84,24 @@ fun TodoListScreen(
             todoItem = TodoItem(text = "", completed = false),
             onConfirmClick = onConfirmAddClick,
             onCancelClick = onCancelAddClick
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TodoListScreenPreview() {
+    AppTheme {
+        TodoListScreen(
+            viewState = TodoListViewState(
+                listOf()
+            ),
+            onAddClick = {},
+            onCompletedChange = {},
+            onTodoClick = {},
+            onConfirmAddClick = {},
+            onCancelAddClick = {},
+            onLogoutClick = {},
         )
     }
 }

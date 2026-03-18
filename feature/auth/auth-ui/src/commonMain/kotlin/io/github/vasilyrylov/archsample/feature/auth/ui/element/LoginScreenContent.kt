@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.sp
 import io.github.vasilyrylov.archsample.feature.auth.ui.data.LoginViewState
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.input.NameInputField
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.input.PasswordInputField
-import io.github.vasilyrylov.archsample.resources.Res
-import io.github.vasilyrylov.archsample.resources.login
-import io.github.vasilyrylov.archsample.resources.password
-import io.github.vasilyrylov.archsample.resources.sign_in
-import io.github.vasilyrylov.archsample.resources.sign_up
+import io.github.vasilyrylov.archsample.common.ui.resources.Res
+import io.github.vasilyrylov.archsample.common.ui.resources.login
+import io.github.vasilyrylov.archsample.common.ui.resources.password
+import io.github.vasilyrylov.archsample.common.ui.resources.sign_in
+import io.github.vasilyrylov.archsample.common.ui.resources.sign_up
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

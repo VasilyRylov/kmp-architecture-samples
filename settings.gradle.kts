@@ -16,6 +16,9 @@ pluginManagement {
         mavenCentral()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
 
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
@@ -33,7 +36,9 @@ dependencyResolutionManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     }
 }
-include(":composeApp")
+include(":app:androidApp")
+include(":app:desktopApp")
+include(":app:shared")
 include(":data:database")
 include(":data:preferences")
 include(":common:common-ui")

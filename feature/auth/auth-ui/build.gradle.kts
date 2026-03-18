@@ -1,16 +1,18 @@
 plugins {
-    alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.androidMultiplatformLibrary)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        namespace = "io.github.vasilyrylov.archsample.feature.auth.ui"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
 
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -18,35 +20,16 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.common.commonUi)
             implementation(projects.feature.auth.authDomain)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.components.resources)
             implementation(libs.kotlin.inject.runtime)
-            //put your multiplatform dependencies here
-        }
-        commonTest.dependencies {
-            // implementation(libs.kotlin.test)
-        }
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(compose.uiTooling)
+            implementation(libs.compose.uiToolingPreview)
         }
     }
 }
 
 compose.resources {
     generateResClass = never
-}
-
-android {
-    namespace = "io.github.vasilyrylov.archsample.feature.auth.ui"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
 }

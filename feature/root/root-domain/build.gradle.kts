@@ -1,15 +1,13 @@
 import com.google.devtools.ksp.gradle.KspAATask
 
 plugins {
-    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
     jvm()
-
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
