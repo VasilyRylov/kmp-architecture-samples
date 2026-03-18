@@ -170,13 +170,11 @@ To run the application on android device/emulator:
 
 #### Desktop
 
-Run the desktop application: `./gradlew :desktopApp:run`
+Run the desktop application: `./gradlew :app:desktopApp:run`
 
 #### iOS
 
 To run the application on iPhone device/simulator:
 
-- Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
-- Or
-  use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-  for Android Studio
+- Open `app/iosApp/iosApp.xcproject` in Xcode and run standard configuration
+- Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio
