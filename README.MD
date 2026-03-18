@@ -31,9 +31,10 @@
 
 graph TB
   subgraph :app
+    :app:androidApp["androidApp"]
+    :app:iosApp["iosApp"]
     :app:desktopApp["desktopApp"]
     :app:shared["shared"]
-    :app:androidApp["androidApp"]
   end
   subgraph :common
     :common:common-component["common-component"]
@@ -94,6 +95,8 @@ graph TB
   :common:common-data --> :common:common-domain
   :app:androidApp --> :app:shared
   :app:androidApp --> :feature:root:root-component
+  :app:iosApp --> :app:shared
+  :app:iosApp --> :feature:root:root-component
   :feature:todo:todo-data --> :feature:todo:todo-domain
   :feature:todo:todo-data --> :common:common-domain
   :feature:todo:todo-data --> :common:common-data
