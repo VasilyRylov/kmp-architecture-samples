@@ -36,9 +36,9 @@ dependencyResolutionManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     }
 }
-include(":androidApp")
-include(":desktopApp")
-include(":shared")
+include(":app:androidApp")
+include(":app:desktopApp")
+include(":app:shared")
 include(":data:database")
 include(":data:preferences")
 include(":common:common-ui")

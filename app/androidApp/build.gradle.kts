@@ -6,7 +6,7 @@ plugins {
 
 kotlin {
     dependencies {
-        implementation(projects.shared)
+        implementation(projects.app.shared)
         implementation(projects.feature.root.rootComponent)
 
         implementation(libs.decompose)

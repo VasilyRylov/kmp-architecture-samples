@@ -30,6 +30,11 @@
 }%%
 
 graph TB
+  subgraph :app
+    :app:desktopApp["desktopApp"]
+    :app:shared["shared"]
+    :app:androidApp["androidApp"]
+  end
   subgraph :common
     :common:common-component["common-component"]
     :common:common-domain["common-domain"]
@@ -69,6 +74,11 @@ graph TB
   :feature:root:root-domain --> :common:common-domain
   :feature:root:root-domain --> :feature:auth:auth-domain
   :feature:root:root-domain --> :feature:todo:todo-domain
+  :app:desktopApp --> :app:shared
+  :app:desktopApp --> :feature:root:root-component
+  :app:shared --> :common:common-ui
+  :app:shared --> :common:common-data
+  :app:shared --> :feature:root:root-component
   :feature:auth:auth-component --> :feature:auth:auth-ui
   :feature:auth:auth-component --> :feature:auth:auth-domain
   :feature:auth:auth-component --> :feature:auth:auth-data
@@ -79,14 +89,11 @@ graph TB
   :feature:auth:auth-data --> :feature:auth:auth-domain
   :feature:auth:auth-data --> :common:common-domain
   :feature:auth:auth-data --> :common:common-data
-  :shared --> :common:common-ui
-  :shared --> :common:common-data
-  :shared --> :feature:root:root-component
   :common:common-data --> :data:preferences
   :common:common-data --> :data:database
   :common:common-data --> :common:common-domain
-  :androidApp --> :shared
-  :androidApp --> :feature:root:root-component
+  :app:androidApp --> :app:shared
+  :app:androidApp --> :feature:root:root-component
   :feature:todo:todo-data --> :feature:todo:todo-domain
   :feature:todo:todo-data --> :common:common-domain
   :feature:todo:todo-data --> :common:common-data
@@ -103,8 +110,6 @@ graph TB
   :feature:root:root-component --> :common:common-data
   :feature:auth:auth-domain --> :common:common-domain
   :common:common-component --> :common:common-ui
-  :desktopApp --> :shared
-  :desktopApp --> :feature:root:root-component
   :feature:todo:todo-ui --> :common:common-ui
   :feature:todo:todo-ui --> :common:common-domain
   :feature:todo:todo-ui --> :feature:todo:todo-domain
