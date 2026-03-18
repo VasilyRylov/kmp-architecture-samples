@@ -25,6 +25,7 @@ import io.github.vasilyrylov.archsample.common.ui.resources.delete_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.edit
 import io.github.vasilyrylov.archsample.common.ui.resources.edit_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.todo
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -80,14 +81,22 @@ fun TodoDetailsScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun TodoDetailsScreenPreview() {
-    TodoDetailsScreen(
-        TodoDetailsViewState(
-            item = TodoItem(
-                text = "One",
-                completed = false
-            )
-        ), {}, {}, {}, {}, {})
+    AppTheme {
+        TodoDetailsScreen(
+            viewState = TodoDetailsViewState(
+                item = TodoItem(
+                    text = "One",
+                    completed = false
+                )
+            ),
+            onBackClick = {},
+            onDeleteClick = {},
+            onEditClick = {},
+            onConfirmEdit = {},
+            onCancelEdit = {})
+
+    }
 }

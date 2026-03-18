@@ -26,10 +26,10 @@ import io.github.vasilyrylov.archsample.feature.todo.ui.screen.list.model.TodoLi
 import io.github.vasilyrylov.archsample.common.ui.resources.Res
 import io.github.vasilyrylov.archsample.common.ui.resources.add
 import io.github.vasilyrylov.archsample.common.ui.resources.add_24px
-import io.github.vasilyrylov.archsample.common.ui.resources.edit_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.logout
 import io.github.vasilyrylov.archsample.common.ui.resources.logout_24px
 import io.github.vasilyrylov.archsample.common.ui.resources.todo_list
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -88,18 +88,20 @@ fun TodoListScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun TodoListScreenPreview() {
-    TodoListScreen(
-        viewState = TodoListViewState(
-            listOf()
-        ),
-        onAddClick = {},
-        onCompletedChange = {},
-        onTodoClick = {},
-        onConfirmAddClick = {},
-        onCancelAddClick = {},
-        onLogoutClick = {},
-    )
+    AppTheme {
+        TodoListScreen(
+            viewState = TodoListViewState(
+                listOf()
+            ),
+            onAddClick = {},
+            onCompletedChange = {},
+            onTodoClick = {},
+            onConfirmAddClick = {},
+            onCancelAddClick = {},
+            onLogoutClick = {},
+        )
+    }
 }

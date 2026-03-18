@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
 import io.github.vasilyrylov.archsample.feature.auth.ui.element.LoginScreenContent
 import io.github.vasilyrylov.archsample.feature.auth.ui.data.LoginViewState
 
@@ -43,17 +44,18 @@ fun LoginScreen(
 @Preview
 @Composable
 private fun LoginScreenPreview() {
-
-    LoginScreen(
-        viewState = LoginViewState(
-            name = "",
-            password = "",
-            errorMessage = null,
-            isAuthenticationInProgress = false,
-            snackBarMessage = null
-        ),
-        onChangeLoginData = { _, _ -> },
-        startAuthenticating = {},
-        toRegistration = {}
-    )
+    AppTheme {
+        LoginScreen(
+            viewState = LoginViewState(
+                name = "",
+                password = "",
+                errorMessage = null,
+                isAuthenticationInProgress = false,
+                snackBarMessage = null
+            ),
+            onChangeLoginData = { _, _ -> },
+            startAuthenticating = {},
+            toRegistration = {}
+        )
+    }
 }

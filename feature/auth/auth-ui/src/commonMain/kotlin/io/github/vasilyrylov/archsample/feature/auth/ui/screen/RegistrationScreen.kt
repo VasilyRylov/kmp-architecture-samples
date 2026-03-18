@@ -23,6 +23,7 @@ import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration
 import io.github.vasilyrylov.archsample.common.ui.resources.confirm_registration_dialog_title
 import io.github.vasilyrylov.archsample.common.ui.resources.input_password
 import io.github.vasilyrylov.archsample.common.ui.resources.registration
+import io.github.vasilyrylov.archsample.common.ui.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -80,19 +81,20 @@ fun RegistrationScreen(
 @Preview
 @Composable
 private fun RegistrationScreenPreview() {
-
-    RegistrationScreen(
-        viewState = RegistrationViewState(
-            name = "",
-            password = "",
-            repeatedPassword = "",
-            errorMessage = null,
-            isRegistrationInProgress = false,
-            isConfirmationRequested = false,
-        ),
-        onBackClick = { },
-        handleChangeRegistrationData = { _, _, _ -> },
-        startRegistration = { },
-        declineRegistrationData = { }) {
+    AppTheme {
+        RegistrationScreen(
+            viewState = RegistrationViewState(
+                name = "",
+                password = "",
+                repeatedPassword = "",
+                errorMessage = null,
+                isRegistrationInProgress = false,
+                isConfirmationRequested = false,
+            ),
+            onBackClick = { },
+            handleChangeRegistrationData = { _, _, _ -> },
+            startRegistration = { },
+            declineRegistrationData = { }) {
+        }
     }
 }
