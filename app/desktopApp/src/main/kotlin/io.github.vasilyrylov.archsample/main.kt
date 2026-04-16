@@ -23,6 +23,7 @@ private val appComponent = AppComponent::class.create(JvmPlatformComponent::clas
 
 fun main() {
     Thread.setDefaultUncaughtExceptionHandler { _, e ->
+        e.printStackTrace()
         Dialog(Frame(), e.message ?: "Error").apply {
             layout = FlowLayout()
             val label = Label(e.message)
