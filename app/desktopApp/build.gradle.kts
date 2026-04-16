@@ -25,6 +25,10 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "io.github.vasilyrylov.archsample"
             packageVersion = "1.0.0"
+
+            buildTypes.release.proguard {
+                isEnabled.set(false)
+            }
         }
     }
 }
