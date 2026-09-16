@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux / Android, JVM, DEB
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK platform
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "platforms;android-37.0"
+
+      - name: Test and package
+        run: >-
+          ./gradlew
+          jvmTest
+          test
+          :app:androidApp:assembleDebug
+          :app:androidApp:lintDebug
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageDeb
+          --stacktrace
+
+      - name: Verify JBR in DEB
+        run: |
+          mkdir -p "$RUNNER_TEMP/deb"
+          dpkg-deb -x app/desktopApp/build/compose/binaries/main/deb/*.deb "$RUNNER_TEMP/deb"
+          python3 ci/verify-jbr-runtime.py "$RUNNER_TEMP/deb"
+
+  macos:
+    name: macOS / Apple, JVM, DMG
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK platform
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "platforms;android-37.0"
+
+      - name: Check all targets and package
+        run: >-
+          ./gradlew
+          check
+          compileKotlinIosArm64
+          compileKotlinIosSimulatorArm64
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageDmg
+          --stacktrace
+
+      - name: Verify JBR in DMG
+        run: |
+          dmg=$(find app/desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -print -quit)
+          test -n "$dmg"
+          mkdir -p "$RUNNER_TEMP/dmg"
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/dmg" "$dmg"
+          trap 'hdiutil detach "$RUNNER_TEMP/dmg"' EXIT
+          python3 ci/verify-jbr-runtime.py "$RUNNER_TEMP/dmg"
+
+  windows:
+    name: Windows / JVM, MSI
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Package
+        run: >-
+          ./gradlew.bat
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageMsi
+          --stacktrace
+
+      - name: Extract and verify JBR in MSI
+        shell: pwsh
+        run: |
+          $msi = Get-ChildItem "app/desktopApp/build/compose/binaries/main/msi/*.msi" | Select-Object -First 1
+          if (-not $msi) { throw "MSI package was not created" }
+          $target = Join-Path $env:RUNNER_TEMP "msi"
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          $arguments = @("/a", $msi.FullName, "/qn", "TARGETDIR=$target")
+          $process = Start-Process msiexec.exe -ArgumentList $arguments -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "MSI extraction failed with exit code $($process.ExitCode)" }
+          python ci/verify-jbr-runtime.py $target
