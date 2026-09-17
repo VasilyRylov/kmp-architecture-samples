@@ -34,6 +34,8 @@ composeMultiplatform = "1.12.0"
 agp = "9.3.1"
 ksp = "2.3.12"
 modulegraph = "0.15.0"
+detekt = "1.23.8"
+detektComposeRules = "0.4.23"
 
 
 [libraries]
@@ -75,6 +77,7 @@ visualfsm-compiler = { module = "ru.kontur.mobile.visualfsm:visualfsm-compiler",
 visualfsm-core = { module = "ru.kontur.mobile.visualfsm:visualfsm-core", version.ref = "visualfsm" }
 visualfsm-tools = { module = "ru.kontur.mobile.visualfsm:visualfsm-tools", version.ref = "visualfsm" }
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+detekt-composeRules = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektComposeRules" }
 
 [plugins]
 
@@ -88,3 +91,4 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 room = { id = "androidx.room", version.ref = "room" }
 modulegraph = { id = "dev.iurysouza.modulegraph", version.ref = "modulegraph" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

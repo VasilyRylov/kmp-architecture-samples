@@ -37,6 +37,9 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
           "platforms;android-37.0"
 
+      - name: Run detekt
+        run: ./gradlew detekt detektCompose --stacktrace
+
       - name: Test and package
         run: >-
           ./gradlew
