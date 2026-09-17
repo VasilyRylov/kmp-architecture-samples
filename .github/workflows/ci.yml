@@ -1,0 +1,201 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux / Android, JVM, DEB
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK platform
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "platforms;android-37.0"
+
+      - name: Run detekt
+        run: ./gradlew detekt detektCompose --stacktrace
+
+      - name: Test and package
+        run: >-
+          ./gradlew
+          jvmTest
+          test
+          :app:androidApp:assembleDebug
+          :app:androidApp:lintDebug
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageDeb
+          --stacktrace
+
+      - name: Verify JBR in DEB
+        run: |
+          mkdir -p "$RUNNER_TEMP/deb"
+          dpkg-deb -x app/desktopApp/build/compose/binaries/main/deb/*.deb "$RUNNER_TEMP/deb"
+          python3 ci/verify-jbr-runtime.py "$RUNNER_TEMP/deb"
+
+      - name: Upload Linux Desktop installer
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: desktop-linux-deb-${{ github.sha }}
+          path: app/desktopApp/build/compose/binaries/main/deb/*.deb
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Upload Android application
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: android-debug-apk-${{ github.sha }}
+          path: app/androidApp/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  macos:
+    name: macOS / Apple, JVM, DMG
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Install Android SDK platform
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "platforms;android-37.0"
+
+      - name: Check all targets and package
+        run: >-
+          ./gradlew
+          check
+          compileKotlinIosArm64
+          compileKotlinIosSimulatorArm64
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageDmg
+          --stacktrace
+
+      - name: Verify JBR in DMG
+        run: |
+          dmg=$(find app/desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -print -quit)
+          test -n "$dmg"
+          mkdir -p "$RUNNER_TEMP/dmg"
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/dmg" "$dmg"
+          trap 'hdiutil detach "$RUNNER_TEMP/dmg"' EXIT
+          python3 ci/verify-jbr-runtime.py "$RUNNER_TEMP/dmg"
+
+      - name: Build unsigned iOS Simulator application
+        run: >-
+          xcodebuild
+          -project app/iosApp/iosApp.xcodeproj
+          -scheme iosApp
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath "$RUNNER_TEMP/ios-derived-data"
+          ARCHS=arm64
+          ONLY_ACTIVE_ARCH=YES
+          CODE_SIGNING_ALLOWED=NO
+          build
+
+      - name: Package iOS Simulator application
+        run: |
+          app="$RUNNER_TEMP/ios-derived-data/Build/Products/Debug-iphonesimulator/ArchSample.app"
+          test -d "$app"
+          test "$(lipo -archs "$app/ArchSample")" = "arm64"
+          ditto -c -k --sequesterRsrc --keepParent "$app" "$RUNNER_TEMP/iosApp-simulator-arm64.zip"
+
+      - name: Upload macOS Desktop installer
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: desktop-macos-dmg-${{ github.sha }}
+          path: app/desktopApp/build/compose/binaries/main/dmg/*.dmg
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Upload iOS Simulator application
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-simulator-arm64-${{ github.sha }}
+          path: ${{ runner.temp }}/iosApp-simulator-arm64.zip
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  windows:
+    name: Windows / JVM, MSI
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Package
+        run: >-
+          ./gradlew.bat
+          :app:desktopApp:createDistributable
+          :app:desktopApp:packageMsi
+          --stacktrace
+
+      - name: Extract and verify JBR in MSI
+        shell: pwsh
+        run: |
+          $msi = Get-ChildItem "app/desktopApp/build/compose/binaries/main/msi/*.msi" | Select-Object -First 1
+          if (-not $msi) { throw "MSI package was not created" }
+          $target = Join-Path $env:RUNNER_TEMP "msi"
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          $arguments = @("/a", $msi.FullName, "/qn", "TARGETDIR=$target")
+          $process = Start-Process msiexec.exe -ArgumentList $arguments -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "MSI extraction failed with exit code $($process.ExitCode)" }
+          python ci/verify-jbr-runtime.py $target
+
+      - name: Upload Windows Desktop installer
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: desktop-windows-msi-${{ github.sha }}
+          path: app/desktopApp/build/compose/binaries/main/msi/*.msi
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14

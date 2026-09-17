@@ -32,8 +32,12 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
-        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            mavenContent {
+                snapshotsOnly()
+                includeGroup("ru.kontur.mobile.visualfsm")
+            }
+        }
     }
 }
 include(":app:androidApp")
