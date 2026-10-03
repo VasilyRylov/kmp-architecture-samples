@@ -1,19 +1,24 @@
+config:
+  validation: true
+  warningsAsErrors: true
+  checkExhaustiveness: false
+
 Compose:
   ViewModelForwarding:
     active: true
-  RememberStateMissing:
+  RememberMissing:
     active: true
   MutableStateAutoboxing:
     active: true
-  MutableParameters:
+  MutableParams:
     active: true
-  MutableStateParameter:
+  MutableStateParam:
     active: true
   LambdaParameterInRestartableEffect:
     active: true
   ContentEmitterReturningValues:
     active: true
-  MultipleContentEmitters:
+  MultipleEmitters:
     active: true
   ContentTrailingLambda:
     active: true
@@ -21,9 +26,9 @@ Compose:
     active: true
   PreviewAnnotationNaming:
     active: true
-  Naming:
+  ComposableNaming:
     active: true
-  ParameterOrder:
+  ComposableParamOrder:
     active: true
   ParameterNaming:
     active: true
@@ -38,8 +43,6 @@ Compose:
   ModifierWithoutDefault:
     active: true
   ModifierNaming:
-    active: true
-  ModifierComposable:
     active: true
   ModifierComposed:
     active: true

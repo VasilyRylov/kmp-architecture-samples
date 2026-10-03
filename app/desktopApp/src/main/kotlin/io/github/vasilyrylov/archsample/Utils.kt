@@ -3,6 +3,7 @@ package io.github.vasilyrylov.archsample
 import javax.swing.SwingUtilities
 
 // https://github.com/arkivanov/Decompose/issues/720
+@Suppress("TooGenericExceptionCaught")
 internal fun <T> runOnUiThread(block: () -> T): T {
     if (SwingUtilities.isEventDispatchThread()) {
         return block()
