@@ -19,6 +19,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "ComposeApp"
+            binaryOption("bundleId", "archsample.iosApp")
             isStatic = true
             export(projects.feature.root.rootComponent)
             export(libs.decompose)
