@@ -3,25 +3,35 @@ import ComposeApp
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    lazy var componentContext: ComponentContext = DefaultComponentContext(
-            lifecycle: ApplicationLifecycle(),
-            stateKeeper: nil,
-            instanceKeeper: nil,
-            backHandler: nil
-        )
-    
-    var window: UIWindow?
-    
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        if let window = window {
-            window.rootViewController = MainKt.MainViewController(context: componentContext)
-            window.makeKeyAndVisible()
-        }
-        return true
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+}
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    private lazy var componentContext: ComponentContext = DefaultComponentContext(
+        lifecycle: ApplicationLifecycle(),
+        stateKeeper: nil,
+        instanceKeeper: nil,
+        backHandler: nil
+    )
+
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = MainKt.MainViewController(context: componentContext)
+        self.window = window
+        window.makeKeyAndVisible()
     }
 }

@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "io.github.vasilyrylov.archsample.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -19,6 +19,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "ComposeApp"
+            binaryOption("bundleId", "io.github.vasilyrylov.archsample.shared")
             isStatic = true
             export(projects.feature.root.rootComponent)
             export(libs.decompose)

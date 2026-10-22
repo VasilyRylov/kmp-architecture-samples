@@ -1,5 +1,7 @@
 
 *.iml
+*.pyc
+__pycache__/
 .gradle
 .idea
 .kotlin

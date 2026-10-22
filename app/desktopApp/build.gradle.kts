@@ -20,6 +20,8 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "io.github.vasilyrylov.archsample.MainKt"
+        // The Gradle daemon criteria pin java.home to JBR 21 on every packaging host.
+        javaHome = System.getProperty("java.home")
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

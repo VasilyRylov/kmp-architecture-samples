@@ -16,9 +16,9 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NameInputField(
-    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
         modifier = modifier,

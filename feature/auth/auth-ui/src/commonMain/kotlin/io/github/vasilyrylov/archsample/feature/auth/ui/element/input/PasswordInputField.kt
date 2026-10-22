@@ -14,10 +14,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PasswordInputField(
-    modifier: Modifier = Modifier,
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
         modifier = modifier,
