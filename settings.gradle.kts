@@ -32,12 +32,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        maven("https://central.sonatype.com/repository/maven-snapshots/") {
-            mavenContent {
-                snapshotsOnly()
-                includeGroup("ru.kontur.mobile.visualfsm")
-            }
-        }
     }
 }
 include(":app:androidApp")
