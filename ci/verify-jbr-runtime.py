@@ -7,6 +7,8 @@ import argparse
 import re
 from pathlib import Path
 
+VENDOR_MARKER = b"JetBrains s.r.o."
+
 
 def find_one(root: Path, name: str) -> Path:
     matches = [path for path in root.rglob(name) if "runtime" in path.parts]
@@ -31,13 +33,6 @@ def main() -> None:
     if 'JAVA_VERSION="21.' not in release:
         raise SystemExit(f"Expected Java 21 in {release_file}, got:\n{release}")
 
-    vendor_match = re.search(r'^JAVA_VENDOR="([^"]*)"', release, re.MULTILINE)
-    if vendor_match is None:
-        raise SystemExit(f"No JAVA_VENDOR line in {release_file}, got:\n{release}")
-    vendor = vendor_match.group(1)
-    if "JetBrains" not in vendor:
-        raise SystemExit(f"Expected a JetBrains Runtime vendor in {release_file}, got: {vendor}")
-
     libraries = []
     for name in ("libjvm.so", "libjvm.dylib", "jvm.dll"):
         libraries.extend(path for path in root.rglob(name) if "runtime" in path.parts)
@@ -46,14 +41,23 @@ def main() -> None:
             f"Expected exactly one packaged JVM library below {root}, found {len(libraries)}: {libraries}"
         )
 
+    # A packaged Compose runtime image is jlink-trimmed and its `release` file carries no
+    # vendor key at all, so the vendor assertion runs against the JVM binary itself. If the
+    # release file does declare a vendor, it has to agree with the binary.
     jvm_library = libraries[0]
-    if b"JetBrains s.r.o." not in jvm_library.read_bytes():
+    if VENDOR_MARKER not in jvm_library.read_bytes():
         raise SystemExit(f"Packaged JVM is not a JetBrains Runtime: {jvm_library}")
 
+    declared = re.search(r'^(?:JAVA_VENDOR|IMPLEMENTOR)="([^"]*)"', release, re.MULTILINE)
+    if declared is not None and "JetBrains" not in declared.group(1):
+        raise SystemExit(
+            f"Release file vendor disagrees with the packaged JVM: {declared.group(1)} in {release_file}"
+        )
+
+    vendor = declared.group(1) if declared is not None else VENDOR_MARKER.decode()
     print(f"Verified JBR 21 in {root}")
     print(release.strip())
-    print(f"JAVA_VENDOR={vendor}")
-    print(f"JVM library: {jvm_library}")
+    print(f"JAVA_VENDOR={vendor} (verified in {jvm_library})")
 
 
 if __name__ == "__main__":
