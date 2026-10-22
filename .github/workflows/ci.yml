@@ -26,7 +26,10 @@ jobs:
       - name: Set up bootstrap JDK
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
-          distribution: temurin
+          # Match the vendor pinned in gradle/gradle-daemon-jvm.properties
+          # (toolchainVendor=JETBRAINS): the Gradle daemon then reuses this JBR instead of
+          # provisioning a second one from cache-redirector.jetbrains.com on every job.
+          distribution: jetbrains
           java-version: "21"
 
       - name: Set up Gradle
@@ -53,8 +56,13 @@ jobs:
 
       - name: Verify JBR in DEB
         run: |
+          mapfile -t debs < <(find app/desktopApp/build/compose/binaries/main/deb -maxdepth 1 -name '*.deb' -print)
+          if [ "${#debs[@]}" -ne 1 ]; then
+            echo "Expected exactly one .deb, found ${#debs[@]}: ${debs[*]}"
+            exit 1
+          fi
           mkdir -p "$RUNNER_TEMP/deb"
-          dpkg-deb -x app/desktopApp/build/compose/binaries/main/deb/*.deb "$RUNNER_TEMP/deb"
+          dpkg-deb -x "${debs[0]}" "$RUNNER_TEMP/deb"
           python3 ci/verify-jbr-runtime.py "$RUNNER_TEMP/deb"
 
       - name: Upload Linux Desktop installer
@@ -86,7 +94,10 @@ jobs:
       - name: Set up bootstrap JDK
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
-          distribution: temurin
+          # Match the vendor pinned in gradle/gradle-daemon-jvm.properties
+          # (toolchainVendor=JETBRAINS): the Gradle daemon then reuses this JBR instead of
+          # provisioning a second one from cache-redirector.jetbrains.com on every job.
+          distribution: jetbrains
           java-version: "21"
 
       - name: Set up Gradle
@@ -166,11 +177,17 @@ jobs:
       - name: Set up bootstrap JDK
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
-          distribution: temurin
+          # Match the vendor pinned in gradle/gradle-daemon-jvm.properties
+          # (toolchainVendor=JETBRAINS): the Gradle daemon then reuses this JBR instead of
+          # provisioning a second one from cache-redirector.jetbrains.com on every job.
+          distribution: jetbrains
           java-version: "21"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+
+      - name: Run JVM tests
+        run: ./gradlew.bat jvmTest --stacktrace
 
       - name: Package
         run: >-

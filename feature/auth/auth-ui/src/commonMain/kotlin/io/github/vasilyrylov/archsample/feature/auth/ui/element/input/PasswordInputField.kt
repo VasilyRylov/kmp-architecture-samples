@@ -13,12 +13,11 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-@Suppress("Compose:ComposableParamOrder")
 fun PasswordInputField(
-    modifier: Modifier = Modifier,
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
         modifier = modifier,

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 
@@ -30,6 +31,13 @@ def main() -> None:
     if 'JAVA_VERSION="21.' not in release:
         raise SystemExit(f"Expected Java 21 in {release_file}, got:\n{release}")
 
+    vendor_match = re.search(r'^JAVA_VENDOR="([^"]*)"', release, re.MULTILINE)
+    if vendor_match is None:
+        raise SystemExit(f"No JAVA_VENDOR line in {release_file}, got:\n{release}")
+    vendor = vendor_match.group(1)
+    if "JetBrains" not in vendor:
+        raise SystemExit(f"Expected a JetBrains Runtime vendor in {release_file}, got: {vendor}")
+
     libraries = []
     for name in ("libjvm.so", "libjvm.dylib", "jvm.dll"):
         libraries.extend(path for path in root.rglob(name) if "runtime" in path.parts)
@@ -39,13 +47,13 @@ def main() -> None:
         )
 
     jvm_library = libraries[0]
-    jvm_bytes = jvm_library.read_bytes()
-    if b"JetBrains s.r.o." not in jvm_bytes:
+    if b"JetBrains s.r.o." not in jvm_library.read_bytes():
         raise SystemExit(f"Packaged JVM is not a JetBrains Runtime: {jvm_library}")
 
     print(f"Verified JBR 21 in {root}")
     print(release.strip())
-    print("JAVA_VENDOR=JetBrains s.r.o.")
+    print(f"JAVA_VENDOR={vendor}")
+    print(f"JVM library: {jvm_library}")
 
 
 if __name__ == "__main__":
